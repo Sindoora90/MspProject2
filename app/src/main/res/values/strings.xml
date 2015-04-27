@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">MspProject2</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_google_map">Map</string>
+    <string name="title_activity_gps">GPSActivity</string>
+</resources>
