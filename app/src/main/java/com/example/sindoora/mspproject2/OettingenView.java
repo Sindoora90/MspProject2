@@ -9,16 +9,38 @@ import android.location.Location;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.ImageView;
+
+import com.google.android.gms.maps.model.LatLng;
 //import de.lmu.ifi.mdsg.msp.R;
 
 public class OettingenView extends ImageView{
 
 	public static final int MARKER_RADIUS = 5;
 	//scale and shift depend on the image
+
+    //scale and shift depend on the image
+    // zum berechnen der scale&shift parameter
+    // Pixelparameter
+    int px1 = 197;
+    int py1 = 145; // bushaltestelle richtung gisela
+    int px2 = 210;
+    int py2 = 205; // erster eingang zum gebäude hinten
+    // Locations
+    LatLng l1  = new LatLng(48.150972, 11.594917); // bushalte
+    LatLng l2  = new LatLng(48.150399, 11.595185); // eingang
+    // neue Parameter ausrechnen mit obigen werten
+    public static final double scaleX = 0.24442117766;
+    public static final double scaleY = 0.07996494482;
+    public static final double shiftX = -120*scaleX; //48.148283;
+    public static final double shiftY = -120*scaleY; //11.58501;
+
+    /*
+    // vorgegeben
 	public static final double scaleX = 0.000015278125;
 	public static final double scaleY = 0.000022375;
 	public static final double shiftX = 48.148283;
 	public static final double shiftY = 11.58501;
+	*/
 	
 	private Paint markerPaint;
 	private Location l;
@@ -48,7 +70,9 @@ public class OettingenView extends ImageView{
 		markerPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		markerPaint.setColor(Color.BLUE);
 		Resources res = getResources();
-		setImageDrawable(res.getDrawable(R.drawable.karte_skaliert));
+        // vorgegeben
+		//setImageDrawable(res.getDrawable(R.drawable.karte_skaliert));
+        setImageDrawable(res.getDrawable(R.drawable.oettingen));
 	}
 	
 	@Override
@@ -56,8 +80,8 @@ public class OettingenView extends ImageView{
 		super.onDraw(canvas);
 		//if we got a location
 		if(l != null){
-			double longitude = l.getLongitude();
-			double latitude = l.getLatitude();
+			double longitude = l1.longitude;//l.getLongitude();
+			double latitude = l1.latitude;//l.getLatitude();
 			Log.i(this.getClass().getName(), "coords: " + latitude + " " + longitude);
 			//transform coordinates to pixels
 			float[] pixelCoords = convert(latitude, longitude);
@@ -70,6 +94,13 @@ public class OettingenView extends ImageView{
 				//log the problem
 				Log.e(this.getClass().getName(), "can not display position on map");
 			}
+
+            // test
+            Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
+            p.setColor(Color.RED);
+            canvas.drawCircle(50,50,MARKER_RADIUS,markerPaint);
+            canvas.drawCircle(100,100,MARKER_RADIUS,p);
+
 		}
 		
 	}
