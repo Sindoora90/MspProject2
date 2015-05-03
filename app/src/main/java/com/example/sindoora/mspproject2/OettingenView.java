@@ -26,7 +26,7 @@ public class OettingenView extends ImageView{
     int px2 = 210;
     int py2 = 205; // erster eingang zum gebäude hinten
     // Locations
-    LatLng l1  = new LatLng(48.150972, 11.594917); // bushalte
+    LatLng l1  = new LatLng(48.150828, 11.595015); // bushalte
     LatLng l2  = new LatLng(48.150399, 11.595185); // eingang
     // neue Parameter ausrechnen mit obigen werten
     /*
@@ -72,8 +72,8 @@ public class OettingenView extends ImageView{
 		markerPaint.setColor(Color.BLUE);
 		Resources res = getResources();
         // vorgegeben
-		//setImageDrawable(res.getDrawable(R.drawable.karte_skaliert));
-        setImageDrawable(res.getDrawable(R.drawable.oettingen));
+		setImageDrawable(res.getDrawable(R.drawable.karte_skaliert));
+        //setImageDrawable(res.getDrawable(R.drawable.oettingen));
 	}
 	
 	@Override
@@ -86,6 +86,8 @@ public class OettingenView extends ImageView{
 			Log.i(this.getClass().getName(), "coords: " + latitude + " " + longitude);
 			//transform coordinates to pixels
 			float[] pixelCoords = convert(latitude, longitude);
+            // test
+            //float[] pixelCoords = convert(l1.longitude, l1.latitude);
 			Log.i(this.getClass().getName(), "pixel coords: " + pixelCoords[0] + " " + pixelCoords[1]);
 			//if the result is inside the bounds of the image
 			if(pixelCoords[0]>=0 && pixelCoords[0]<=320 && pixelCoords[1]>=0 && pixelCoords[1]<=480){

@@ -14,7 +14,7 @@
   	android:id="@+id/view_of_ifi"
   	android:layout_height="wrap_content" 
   	android:layout_width="wrap_content" 
-  	android:src="@drawable/oettingen"
+  	android:src="@drawable/karte_skaliert"
   	android:scrollbars="vertical" android:scrollbarAlwaysDrawVerticalTrack="true"/>  <!-- davor karte_skaliert -->
   	</ScrollView>
 </LinearLayout>

@@ -146,7 +146,7 @@ public class GoogleMapActivity extends FragmentActivity implements LocationListe
 //                        .position(new LatLng(curLocOverGPS.getLatitude(), curLocOverGPS.getLongitude()))
 //                        .title("GPS"));
 
-                currentLocationMarkerForGPS.setPosition(new LatLng(curLocOverGPS.getLatitude(), curLocOverGPS.getLatitude()));
+                currentLocationMarkerForGPS.setPosition(new LatLng(curLocOverGPS.getLatitude(), curLocOverGPS.getLongitude()));
 
             }
             else{
@@ -160,7 +160,7 @@ public class GoogleMapActivity extends FragmentActivity implements LocationListe
 //                        .icon(BitmapDescriptorFactory
 //                                .fromResource(R.mipmap.ic_launcher)));
 
-                currentLocationMarkerForNetwork.setPosition(new LatLng(currentLocationOverNetwork.getLatitude(), currentLocationOverNetwork.getLatitude()));
+                currentLocationMarkerForNetwork.setPosition(new LatLng(currentLocationOverNetwork.getLatitude(), currentLocationOverNetwork.getLongitude()));
 
 
             }
