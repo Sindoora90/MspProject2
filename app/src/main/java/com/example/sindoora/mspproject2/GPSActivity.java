@@ -25,8 +25,6 @@ public class GPSActivity extends ActionBarActivity implements LocationListener {
 
     LocationManager locationManager;
     Location curLoc, curNetLoc;
-    //GoogleMap mMap;
-    Marker gpsMarker, netMarker;
 
     OettingenView oview;
 
@@ -38,18 +36,8 @@ public class GPSActivity extends ActionBarActivity implements LocationListener {
         // TODO wirft fehler..
         setContentView(R.layout.gps_map_layout);
 
-//        if (mMap == null) {
-//            // Try to obtain the map from the SupportMapFragment.
-//            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
-//                    .getMap();
-//            // Check if we were successful in obtaining the map.
-//            if (mMap != null) {
-//                Log.d("mMap", "successful");
-//            }
-//        }
-
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 100, this);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, this);
 
 
         boolean enabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -57,30 +45,19 @@ public class GPSActivity extends ActionBarActivity implements LocationListener {
             Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             startActivity(intent);
         }
-
-        curLoc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        if (curLoc != null) {
-            // TODO nullpointer
-//            gpsMarker = mMap.addMarker(new MarkerOptions()
-//                    .position(new LatLng(curLoc.getLatitude(), curLoc.getLongitude()))
-//                    .title("GPS")
-//                    .icon(BitmapDescriptorFactory
-//                            .fromResource(R.mipmap.ic_launcher)));
-
-            oview = new OettingenView(this);
-            oview.setLocation(curLoc);  // gps koordinaten werden übergeben und in OettingenView in Pixelkoordinaten umgerechnet
-            setContentView(oview);
-        } else {
-            Log.d("Location", "location over GPS not available");
+        else {
+            curLoc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if (curLoc != null) {
+                oview = new OettingenView(this);
+                oview.setLocation(curLoc);  // gps koordinaten werden übergeben und in OettingenView in Pixelkoordinaten umgerechnet
+                setContentView(oview);
+            } else {
+                Log.d("Location", "location over GPS not available");
+            }
         }
 
         curNetLoc = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         if (curNetLoc != null) {
-//            netMarker = mMap.addMarker(new MarkerOptions()
-//                    .position(new LatLng(curNetLoc.getLatitude(), curNetLoc.getLongitude()))
-//                    .title("Network")
-//                    .icon(BitmapDescriptorFactory
-//                            .fromResource(R.mipmap.ic_launcher)));
 
 
             //float[] convertedLoc = oview.convert((double)currentLocationOverNetwork.getLatitude(), (double)currentLocationOverNetwork.getLongitude());
@@ -125,13 +102,8 @@ public class GPSActivity extends ActionBarActivity implements LocationListener {
 
         curLoc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         if (curLoc != null) {
-//            gpsMarker = mMap.addMarker(new MarkerOptions()
-//                    .position(new LatLng(curLoc.getLatitude(), curLoc.getLongitude()))
-//                    .title("GPS")
-//                    .icon(BitmapDescriptorFactory
-//                            .fromResource(R.mipmap.ic_launcher)));
-
-            oview = new OettingenView(this);
+            // braucht man das?
+            //oview = new OettingenView(this);
             oview.setLocation(curLoc);
 
         } else {
@@ -140,13 +112,6 @@ public class GPSActivity extends ActionBarActivity implements LocationListener {
 
         curNetLoc = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         if (curNetLoc != null) {
-//            netMarker = mMap.addMarker(new MarkerOptions()
-//                    .position(new LatLng(curNetLoc.getLatitude(), curNetLoc.getLongitude()))
-//                    .title("Network")
-//                    .icon(BitmapDescriptorFactory
-//                            .fromResource(R.mipmap.ic_launcher)));
-
-
             //float[] convertedLoc = oview.convert((double)currentLocationOverNetwork.getLatitude(), (double)currentLocationOverNetwork.getLongitude());
         }
 

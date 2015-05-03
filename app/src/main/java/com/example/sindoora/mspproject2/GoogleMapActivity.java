@@ -24,7 +24,7 @@ public class GoogleMapActivity extends FragmentActivity implements LocationListe
     static final LatLng KIEL = new LatLng(53.551, 9.993);
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
-    private Location curLoc,currentLocationOverNetwork;
+    private Location curLocOverGPS,currentLocationOverNetwork;
     LocationManager locationManager;
     Marker currentLocationMarkerForGPS, currentLocationMarkerForNetwork;
 
@@ -72,16 +72,16 @@ public class GoogleMapActivity extends FragmentActivity implements LocationListe
             Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             startActivity(intent);
         }
+        else {
+            curLocOverGPS = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if (curLocOverGPS != null) {
+                currentLocationMarkerForGPS = mMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(curLocOverGPS.getLatitude(), curLocOverGPS.getLongitude()))
+                        .title("GPS"));
 
-        curLoc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        if (curLoc != null) {
-             currentLocationMarkerForGPS = mMap.addMarker(new MarkerOptions()
-                    .position(new LatLng(curLoc.getLatitude(), curLoc.getLongitude()))
-                    .title("GPS"));
-
-        }
-        else{
-            Log.d("Location", "location over GPS not available");
+            } else {
+                Log.d("Location", "location over GPS not available");
+            }
         }
 
 
@@ -140,11 +140,13 @@ public class GoogleMapActivity extends FragmentActivity implements LocationListe
         }
 
         else {
-            curLoc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            if (curLoc != null) {
-                currentLocationMarkerForGPS = mMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(curLoc.getLatitude(), curLoc.getLongitude()))
-                        .title("GPS"));
+            curLocOverGPS = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if (curLocOverGPS != null) {
+//                currentLocationMarkerForGPS = mMap.addMarker(new MarkerOptions()
+//                        .position(new LatLng(curLocOverGPS.getLatitude(), curLocOverGPS.getLongitude()))
+//                        .title("GPS"));
+
+                currentLocationMarkerForGPS.setPosition(new LatLng(curLocOverGPS.getLatitude(), curLocOverGPS.getLatitude()));
 
             }
             else{
@@ -152,11 +154,14 @@ public class GoogleMapActivity extends FragmentActivity implements LocationListe
             }
 
             if (currentLocationOverNetwork != null) {
-                currentLocationMarkerForNetwork = mMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(currentLocationOverNetwork.getLatitude(), currentLocationOverNetwork.getLongitude()))
-                        .title("Network")
-                        .icon(BitmapDescriptorFactory
-                                .fromResource(R.mipmap.ic_launcher)));
+//                currentLocationMarkerForNetwork = mMap.addMarker(new MarkerOptions()
+//                        .position(new LatLng(currentLocationOverNetwork.getLatitude(), currentLocationOverNetwork.getLongitude()))
+//                        .title("Network")
+//                        .icon(BitmapDescriptorFactory
+//                                .fromResource(R.mipmap.ic_launcher)));
+
+                currentLocationMarkerForNetwork.setPosition(new LatLng(currentLocationOverNetwork.getLatitude(), currentLocationOverNetwork.getLatitude()));
+
 
             }
             else{
@@ -164,8 +169,8 @@ public class GoogleMapActivity extends FragmentActivity implements LocationListe
             }
         }
 
-        Toast.makeText(this, "GPS: Latitude: " + curLoc.getLatitude() + " Longitude: " + curLoc.getLongitude(), Toast.LENGTH_LONG).show();
-        Toast.makeText(this, "Network: Latitude: " + curLoc.getLatitude() + " Longitude: " + curLoc.getLongitude(), Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "GPS: Latitude: " + curLocOverGPS.getLatitude() + " Longitude: " + curLocOverGPS.getLongitude(), Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Network: Latitude: " + curLocOverGPS.getLatitude() + " Longitude: " + curLocOverGPS.getLongitude(), Toast.LENGTH_LONG).show();
 
     }
 

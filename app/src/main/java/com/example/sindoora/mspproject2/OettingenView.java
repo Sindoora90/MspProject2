@@ -29,18 +29,19 @@ public class OettingenView extends ImageView{
     LatLng l1  = new LatLng(48.150972, 11.594917); // bushalte
     LatLng l2  = new LatLng(48.150399, 11.595185); // eingang
     // neue Parameter ausrechnen mit obigen werten
+    /*
     public static final double scaleX = 0.24442117766;
     public static final double scaleY = 0.07996494482;
     public static final double shiftX = -120*scaleX; //48.148283;
     public static final double shiftY = -120*scaleY; //11.58501;
+*/
 
-    /*
     // vorgegeben
 	public static final double scaleX = 0.000015278125;
 	public static final double scaleY = 0.000022375;
 	public static final double shiftX = 48.148283;
 	public static final double shiftY = 11.58501;
-	*/
+
 	
 	private Paint markerPaint;
 	private Location l;
@@ -80,8 +81,8 @@ public class OettingenView extends ImageView{
 		super.onDraw(canvas);
 		//if we got a location
 		if(l != null){
-			double longitude = l1.longitude;//l.getLongitude();
-			double latitude = l1.latitude;//l.getLatitude();
+			double longitude = l.getLongitude(); // l1.longitude;
+			double latitude = l.getLatitude(); // l1.latitude;
 			Log.i(this.getClass().getName(), "coords: " + latitude + " " + longitude);
 			//transform coordinates to pixels
 			float[] pixelCoords = convert(latitude, longitude);
@@ -98,7 +99,7 @@ public class OettingenView extends ImageView{
             // test
             Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
             p.setColor(Color.RED);
-            canvas.drawCircle(50,50,MARKER_RADIUS,markerPaint);
+            //canvas.drawCircle(50,50,MARKER_RADIUS,p);
             canvas.drawCircle(100,100,MARKER_RADIUS,p);
 
 		}
