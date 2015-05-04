@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class WLANActivity extends Activity {
@@ -35,11 +36,26 @@ public class WLANActivity extends Activity {
 	*/
 
     WLANView view;
+    WifiManager mainWifiObj;
+    WifiReceiver wifiReciever;
+    List<ScanResult> wifiScanList;
+    int count = 0;
+
+    ArrayList<Fingerprint> fingerprints;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.gps_map_layout);
+        setContentView(R.layout.main_wlan_layout);
+
+        mainWifiObj = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+
+        wifiReciever = new WifiReceiver();
+        registerReceiver(wifiReciever, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+
+        wifiScanList = mainWifiObj.getScanResults();
+
+        fingerprints = new ArrayList<Fingerprint>();
 
         view = new WLANView(this);
         view.setOnClickListener(new View.OnClickListener() {
@@ -48,14 +64,29 @@ public class WLANActivity extends Activity {
 
                 Log.d("WLANActivity", "touch");
                 Log.d("WLANActivity", "position: " + view.click_x + " , " + view.click_y);
-                WifiManager mainWifiObj;
-                mainWifiObj = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 
-                WifiReceiver wifiReciever = new WifiReceiver();
-                registerReceiver(wifiReciever, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+                if(wifiScanList.size()!=0) {
+                    String data = wifiScanList.get(0).toString();
+                    Log.d("test", "data: " + data);
+                    Log.d("test", "wifiScanList size : " + wifiScanList.size());
+                    //Measurement(String mac, int rssi)
+                    ArrayList<Measurement> measures = new ArrayList<Measurement>();
 
-                List<ScanResult> wifiScanList = mainWifiObj.getScanResults();
-                String data = wifiScanList.get(0).toString();
+                    for(int i = 0; i < wifiScanList.size(); i++){
+                        Measurement m = new Measurement(wifiScanList.get(i).BSSID, wifiScanList.get(i).level);
+                        measures.add(i,m);
+                    }
+                    //Measurement m = new Measurement(wifiScanList.get(0).BSSID, wifiScanList.get(0).level);
+                    //Fingerprint(int x, int y, int e, int d, ArrayList<Measurement> measures)
+                    Fingerprint testFP = new Fingerprint((int) view.click_x, (int) view.click_y,0,0,measures);
+                    fingerprints.add(count,testFP);
+                    count++;
+                    Log.d("testtesttest", "test fingerprint: " + testFP.toString());
+                    Log.d("testtesttesttest", "fingerprints anzahl " + fingerprints.size());
+                }
+                else{
+                    Log.d("test", "wifiScanList is leer");
+                }
 
             }
         });
@@ -72,6 +103,8 @@ public class WLANActivity extends Activity {
 		switch (item.getItemId()) {
 		case (MENU_DELETE): {
 			//TODO: delete all fingerprints
+            fingerprints.clear();
+            Log.d("test", "fingerprints sollte jz leer sein: " + fingerprints);
 			return true;
 		}
 		case (MENU_POSITIONING): {
