@@ -123,6 +123,11 @@ public class WLANActivity extends ActionBarActivity {
         return false;
     }
 
+
+
+
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // how to create an options menu
