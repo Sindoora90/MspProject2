@@ -96,7 +96,7 @@ public class OettingenView extends ImageView{
 			//if the result is inside the bounds of the image
 			if(pixelCoords[0]>=0 && pixelCoords[0]<=320 && pixelCoords[1]>=0 && pixelCoords[1]<=480){
 				//draw position on image
-				canvas.drawCircle(pixelCoords[0], pixelCoords[1], MARKER_RADIUS, markerPaint);
+				canvas.drawCircle(pixelCoords[0], pixelCoords[1], MARKER_RADIUS+2, markerPaint);
 			} else {
 				//log the problem
 				Log.e(this.getClass().getName(), "can not display position on map");
@@ -107,6 +107,7 @@ public class OettingenView extends ImageView{
             p.setColor(Color.RED);
             //canvas.drawCircle(50,50,MARKER_RADIUS,p);
             canvas.drawCircle(100,100,MARKER_RADIUS,p);
+            canvas.drawCircle(300,300,MARKER_RADIUS+2,p);
 
 		}
 		

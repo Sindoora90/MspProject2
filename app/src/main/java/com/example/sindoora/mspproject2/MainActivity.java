@@ -21,6 +21,7 @@ public class MainActivity extends ActionBarActivity {
 
         gmapButton = (Button) findViewById(R.id.button);
         gpsButton = (Button) findViewById(R.id.button2);
+        wlanButton = (Button) findViewById(R.id.button3);
 
         gmapButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,7 +39,6 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-        wlanButton = (Button) findViewById(R.id.button3);
         wlanButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

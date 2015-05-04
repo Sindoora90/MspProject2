@@ -99,9 +99,9 @@ public class GoogleMapActivity extends FragmentActivity implements LocationListe
         }
 
         Log.d("blabla", "locationmanager getallproviders " + locationManager.getAllProviders());
-        Log.d("blabla", "locationmanager getallproviders " + locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
-        Log.d("blabla", "locationmanager getallproviders " + locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER));
-        Log.d("blabla", "locationmanager getallproviders " + locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER));
+        Log.d("blabla", "gps location " + locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
+        Log.d("blabla", "passive location " + locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER));
+        Log.d("blabla", "network location " + locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER));
 
 
         // Initialize the location fields
