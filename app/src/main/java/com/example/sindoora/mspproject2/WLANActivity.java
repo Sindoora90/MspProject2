@@ -4,9 +4,17 @@ import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
+
+import java.util.List;
 
 public class WLANActivity extends Activity {
 
@@ -34,6 +42,24 @@ public class WLANActivity extends Activity {
         setContentView(R.layout.gps_map_layout);
 
         view = new WLANView(this);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Log.d("WLANActivity", "touch");
+                Log.d("WLANActivity", "position: " + view.click_x + " , " + view.click_y);
+                WifiManager mainWifiObj;
+                mainWifiObj = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+
+                WifiReceiver wifiReciever = new WifiReceiver();
+                registerReceiver(wifiReciever, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+
+                List<ScanResult> wifiScanList = mainWifiObj.getScanResults();
+                String data = wifiScanList.get(0).toString();
+
+            }
+        });
+
         //TODO view.paint();
         setContentView(view);
 
