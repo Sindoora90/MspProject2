@@ -11,7 +11,7 @@ import android.widget.Button;
 
 public class MainActivity extends ActionBarActivity {
 
-    Button gmapButton, gpsButton;
+    Button gmapButton, gpsButton, wlanButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +33,15 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), GPSActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        wlanButton = (Button) findViewById(R.id.button3);
+        wlanButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent  = new Intent(getApplicationContext(), WLANActivity.class);
                 startActivity(intent);
             }
         });

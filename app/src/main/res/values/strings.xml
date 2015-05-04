@@ -5,4 +5,5 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_google_map">Map</string>
     <string name="title_activity_gps">GPSActivity</string>
+    <string name="title_activity_wlan">WLANActivity</string>
 </resources>

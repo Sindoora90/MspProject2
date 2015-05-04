@@ -43,6 +43,12 @@
             android:name=".GPSActivity"
             android:label="@string/title_activity_gps" >
         </activity>
+
+        <activity
+            android:name=".WLANActivity"
+            android:label="@string/title_activity_wlan" >
+        </activity>
+
     </application>
 
 </manifest>

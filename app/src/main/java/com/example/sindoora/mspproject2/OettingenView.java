@@ -32,19 +32,20 @@ public class OettingenView extends ImageView{
 
     //Point_WGS84_x = Shift_x + Point_pixel_x * Scale_x
 
+    /*
     public static final double scaleX = 0.000085384;
     public static final double scaleY = 0.0000022333;
     public static final double shiftX = 48.148545935;
     public static final double shiftY = 11.594691172;
 
-    /*
+    */
 
     // vorgegeben
 	public static final double scaleX = 0.000015278125;
 	public static final double scaleY = 0.000022375;
 	public static final double shiftX = 48.148283;
 	public static final double shiftY = 11.58501;
-*/
+
 	
 	private Paint markerPaint;
 	private Location l;
@@ -75,8 +76,8 @@ public class OettingenView extends ImageView{
 		markerPaint.setColor(Color.BLUE);
 		Resources res = getResources();
         // vorgegeben
-		//setImageDrawable(res.getDrawable(R.drawable.karte_skaliert));
-        setImageDrawable(res.getDrawable(R.drawable.oettingen));
+		setImageDrawable(res.getDrawable(R.drawable.karte_skaliert));
+        //setImageDrawable(res.getDrawable(R.drawable.oettingen));
 	}
 	
 	@Override
