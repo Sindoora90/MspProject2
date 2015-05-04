@@ -30,11 +30,14 @@ public class OettingenView extends ImageView{
     LatLng l2  = new LatLng(48.150399, 11.595185); // eingang
     // neue Parameter ausrechnen mit obigen werten
     /*
-    public static final double scaleX = 0.24442117766;
-    public static final double scaleY = 0.07996494482;
-    public static final double shiftX = -120*scaleX; //48.148283;
-    public static final double shiftY = -120*scaleY; //11.58501;
-*/
+    //Point_WGS84_x = Shift_x + Point_pixel_x * Scale_x
+
+    public static final double scaleX = 0.000085384;
+    public static final double scaleY = 0.0000022333;
+    public static final double shiftX = 48.148545935;
+    public static final double shiftY = 11.594691172;
+
+    */
 
     // vorgegeben
 	public static final double scaleX = 0.000015278125;
