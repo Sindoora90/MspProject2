@@ -8,7 +8,6 @@ import android.content.IntentFilter;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,7 +17,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WLANActivity extends ActionBarActivity {
+public class WLANActivity extends Activity {
 
     private static final int MENU_DELETE = Menu.FIRST + 1;
     private static final int MENU_POSITIONING = MENU_DELETE + 1;
@@ -109,9 +108,6 @@ public class WLANActivity extends ActionBarActivity {
             case (MENU_DELETE): {
                 //TODO: delete all fingerprints
                 fingerprints.clear();
-                view.fingerprints.clear();
-                count = 0;
-               // view.refreshDrawableState();
                 Log.d("test", "fingerprints sollte jz leer sein: " + fingerprints);
                 return true;
             }
@@ -122,11 +118,6 @@ public class WLANActivity extends ActionBarActivity {
         }
         return false;
     }
-
-
-
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

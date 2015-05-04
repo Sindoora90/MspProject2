@@ -46,7 +46,7 @@ public class OettingenView extends ImageView{
 	public static final double shiftX = 48.148283;
 	public static final double shiftY = 11.58501;
 
-
+	
 	private Paint markerPaint;
 	private Location l;
 	
