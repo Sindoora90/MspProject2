@@ -42,35 +42,42 @@ public class WLANActivity extends ActionBarActivity {
     List<ScanResult> wifiScanList;
     int count = 0;
 
-    ArrayList<Fingerprint> fingerprints;
+   // ArrayList<Fingerprint> fingerprints;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_wlan_layout);
 
-        fingerprints = new ArrayList<Fingerprint>();
+       // fingerprints = new ArrayList<Fingerprint>();
 
         record = true;
         positioning = false;
+
+        // .. außerhalb der onclick testen
+        mainWifiObj = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+
+        wifiReciever = new WifiReceiver();
+        registerReceiver(wifiReciever, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+        // ..
 
         view = new WLANView(this);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                mainWifiObj = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-
-                wifiReciever = new WifiReceiver();
-
-                registerReceiver(wifiReciever, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+//                mainWifiObj = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+//
+//                wifiReciever = new WifiReceiver();
+//                registerReceiver(wifiReciever, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 
                 mainWifiObj.startScan();
 
-
                 Log.d("WLANActivity", "position: " + view.click_x + " , " + view.click_y);
+                Log.d("WLANActivity", "record: " + record + " , positioning " + positioning);
 
             }
+
         });
 
         //TODO view refresh..
@@ -86,17 +93,18 @@ public class WLANActivity extends ActionBarActivity {
         switch (item.getItemId()) {
             case (MENU_DELETE): {
                 // --delete all fingerprints
-                fingerprints.clear();
+                //fingerprints.clear();
                 view.fingerprints.clear();
                 count = 0;
                 // view.refreshDrawableState();
-
-                Log.d("test", "fingerprints sollte jz leer sein: " + fingerprints);
+                view.invalidate();
+               // Log.d("test", "fingerprints sollte jz leer sein: " + fingerprints);
                 return true;
             }
             case (MENU_POSITIONING): {
-                record = !record; // braucht man das ?
+                record = !record; // braucht man das ? bzw von mir eingefügt
                 positioning = !positioning;
+                Log.d("WLANActivity", "MENU clicked: record: " + record + " , positioning " + positioning);
                 return true;
             }
         }
@@ -128,13 +136,13 @@ public class WLANActivity extends ActionBarActivity {
                 if (record) {
                 // -- record a new fingerprint
                 Log.d("wifireceiver", "es sollte neuer fingerpringt wieder möglich sein");
-                    Log.d("wifireceiver", "testtesttest");
+
                     wifiScanList = mainWifiObj.getScanResults();
 
                     if (wifiScanList.size() != 0) {
                         String data = wifiScanList.get(0).toString();
-                        Log.d("test", "data: " + data);
-                        Log.d("test", "wifiScanList size : " + wifiScanList.size());
+                        Log.d("test", "data: " + data + " , wifiScanList size: " + wifiScanList.size());
+
                         //Measurement(String mac, int rssi)
                         ArrayList<Measurement> measures = new ArrayList<Measurement>();
 
@@ -145,30 +153,38 @@ public class WLANActivity extends ActionBarActivity {
                         //Measurement m = new Measurement(wifiScanList.get(0).BSSID, wifiScanList.get(0).level);
                         //Fingerprint(int x, int y, int e, int d, ArrayList<Measurement> measures)
                         Fingerprint testFP = new Fingerprint((int) view.click_x, (int) view.click_y, 0, 0, measures);
-                        fingerprints.add(count, testFP);
+                        //fingerprints.add(count, testFP);
                         view.fingerprints.add(count,testFP);
                         count++;
                         Log.d("testtesttest", "test fingerprint: " + testFP.toString());
-                        Log.d("testtesttesttest", "fingerprints anzahl " + fingerprints.size());
-                        Log.d("testtesttesttest", "fingerprints anzahl " + view.fingerprints.size());
+                        Log.d("testtesttesttest", "anzahl fingerprints in view: " +  view.fingerprints.size());
                     } else {
                         Log.d("test", "wifiScanList is leer");
                     }
 
                     // TODO refresh view with new fingerprint
-                    view.refreshDrawableState();
+                    //view.refreshDrawableState();
+                    // current view has changed and should be updated as soon as possible
+                    view.invalidate();
 
             }
             if (positioning) {
                 //TODO: compute position and show it in the view
                 wifiScanList = mainWifiObj.getScanResults();
-               if(wifiScanList.size()!=0) {
+               if(wifiScanList.size()!=0 && view.fingerprints.size()!=0) {
                    DistanceReasoner dr = new DistanceReasoner();
-                   Fingerprint nn = dr.compareClosest(fingerprints, wifiScanList);
-                   view.position = nn;
+                   Fingerprint nn = dr.compareClosest(view.fingerprints, wifiScanList);
+                   if(nn!=null) {
+                       view.position = nn;
+                       view.invalidate();
+                   }
+                   else{
+                      Toast.makeText(getApplicationContext(), "Could not find NN :(", Toast.LENGTH_LONG).show();
+                   }
                }
                 else{
-                   Log.d("receiver", "wifiscanlist is leer :(");
+                   Log.d("receiver", "wifiscanlist oder fingerprints is leer :(");
+                   Toast.makeText(getApplicationContext(), "Could not find location :(", Toast.LENGTH_LONG).show();
                }
             }
         }
